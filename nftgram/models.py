@@ -47,6 +47,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         db_table = "users"
 
+
 class Post(models.Model):
     post_id = models.AutoField(primary_key=True)
     user_id = models.CharField(max_length=200)
@@ -54,21 +55,23 @@ class Post(models.Model):
     description = models.CharField(max_length=200)
     posted_at = models.DateTimeField(auto_now_add=True)
     nft_id = models.IntegerField()
-    nft_url =  #not sure
+    nft_url = models.CharField(max_length=255)
 
     class Meta:
         db_table = "post"
+
 
 class Reply(models.Model):
 
     reply_id = models.AutoField(primary_key=True)
     user_id = models.CharField(max_length=200)
-    post_id = = models.IntegerField()
+    post_id = models.IntegerField()
     replied_at = models.DateTimeField(auto_now_add=True)
     reply_text = models.CharField(max_length=200)
 
     class Meta:
         db_table = "reply"
+
 
 class UserProfile(models.Model):
 
@@ -76,7 +79,7 @@ class UserProfile(models.Model):
     name = models.CharField(max_length=200)
     profile_heading = models.CharField(max_length=50)
     profile_description = models.CharField(max_length=200)
-    profile_pic_url = # not sure
+    profile_pic_url = models.CharField(max_length=255)
 
     class Meta:
         db_table = "userprofile"
@@ -90,12 +93,4 @@ class Follows(models.Model):
     class Meta:
         db_table = "follows"
 
-class Auth(models.Model):
-
-    user_id = models.IntegerField() #FK?
-    token = models.CharField(max_length=200) #not sure about token legnth
-    role = #?
-
-    class Meta:
-        db_table = "auth"
 

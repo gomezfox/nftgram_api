@@ -4,10 +4,9 @@ from nftgram.models import Post
 from nftgram.models import Reply
 from nftgram.models import UserProfile
 from nftgram.models import Follows
-from nftgram.models import Auth
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer)
+class UserSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.IntegerField(read_only=True)
     username = serializers.CharField(max_length=60)
     password = serializers.CharField(max_length=200)
@@ -47,6 +46,7 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
             'nft_url',
             )
 
+
 class ReplySerializer(serializers.HyperlinkedModelSerializer):
     user_id = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='name')
     post_id = serializers.SlugRelatedField(queryset=Post.objects.all(), slug_field='name')
@@ -60,6 +60,7 @@ class ReplySerializer(serializers.HyperlinkedModelSerializer):
             'replied_at',
             'reply_text',
             )
+
 
 class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
     user_id = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='name')
@@ -76,6 +77,7 @@ class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
             'profile_pic_url',
             )
 
+
 class FollowsSerializer(serializers.ModelSerializer):
     user_id = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='name')
 
@@ -84,16 +86,5 @@ class FollowsSerializer(serializers.ModelSerializer):
         fields = (
             'user_id',
             'follows_id',
-            )
-
-class AuthSerializer(serializers.ModelSerializer):
-    user_id = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='name')
-
-    class Meta:
-        model = Auth
-        fields = (
-            'user_id',
-            'token',
-            'role'
             )
 
