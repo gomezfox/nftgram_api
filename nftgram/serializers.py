@@ -27,8 +27,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer)
         instance.date_joined = validated_data.get('date_joined', instance.date_joined)
         instance.save()
         return instance
-      
-          class Meta:
+
+    class Meta:
         model = User   
         fields = ['id', 'username', 'password', 'date_joined', 'last_login']
 
