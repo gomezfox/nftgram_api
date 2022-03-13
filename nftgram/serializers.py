@@ -7,8 +7,8 @@ class UserSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     username = serializers.CharField(max_length=60)
     password = serializers.CharField(max_length=200)
-    name = serializers.CharField(max_length=100)
-    date_joined = serializers.DateTimeField()
+    date_joined = serializers.DateTimeField(read_only=True)
+    last_login = serializers.DateTimeField()
 
     # create function creates and return an object from validated JSON data
     def create(self, validated_data):
@@ -25,4 +25,4 @@ class UserSerializer(serializers.Serializer):
         return instance
 
     class Meta:
-        fields = ['id', 'username', 'password', 'roles', 'date_joined']
+        fields = ['id', 'username', 'password', 'date_joined', 'last_login']
