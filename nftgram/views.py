@@ -8,6 +8,7 @@ from rest_framework.parsers import JSONParser
 from rest_framework import status
 from nftgram.models import User
 from nftgram.serializers import UserSerializer
+from rest_framework import viewsets
 
 
 class JSONResponse(HttpResponse):
@@ -55,3 +56,11 @@ def user_detail(request, user_id):
     elif request.method == 'DELETE':
         user.delete()
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
+
+
+# ViewSets define the view behavior.
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
