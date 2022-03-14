@@ -121,3 +121,32 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
         IsAuthorOrReadOnly,
         IsFollowOrReadOnly
     )
+
+class FollowList(generics.ListCreateAPIView):
+    queryset = follow.objects.all()
+    serializer_class = UserFollowSerializer
+    name = 'followe'
+
+    permissions_classes = (
+        IsAuthorOrReadOnly,
+        IsFollowOrReadOnly
+    )
+
+class FollowDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Relations.objects.all()
+    serializer_class = FollowSerializer
+    name = 'relation-detail'
+
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+        IsFollowOrReadOnly)
+
+class ApiRoot(generics.GenericAPIView):
+    name = 'api-root'
+    def get(self, request, *args, **kwargs):
+        return Response({
+            'signup':reverse(UserCreate.name, request=request),
+            'posts': reverse(TweetList.name, request=request),
+            'follow':reverse(FollowList.name, request=request),
+            'users':reverse(UserList.name, request=request),
+            })
