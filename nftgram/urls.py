@@ -1,5 +1,5 @@
 from django.urls import path, re_path, include
-from nftgram.views import UserViewSet, PostViewSet, ProfileViewSet, FollowsViewSet, ReplyViewSet
+from nftgram.views import UserViewSet, PostViewSet, ProfileViewSet, FollowsViewSet, ReplyViewSet, APILogoutView
 from rest_framework import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
@@ -17,4 +17,5 @@ urlpatterns = [
     path('', include(router.urls)),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('logout_token/', APILogoutView.as_view(), name='logout_token'),
 ]
