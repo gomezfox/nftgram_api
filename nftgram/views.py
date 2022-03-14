@@ -121,3 +121,13 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
         IsAuthorOrReadOnly,
         IsFollowOrReadOnly
     )
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerialzer
+    name = 'user-list'
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset User.objects.all()
+    serializer_class = UserSerialzer
+    name = 'user-detail'
