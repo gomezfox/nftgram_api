@@ -122,17 +122,6 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
         IsFollowOrReadOnly
     )
 
-class UserList(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerialzer
-    name = 'user-list'
-
-class UserDetail(generics.RetrieveAPIView):
-    queryset User.objects.all()
-    serializer_class = UserSerialzer
-    name = 'user-detail'
-    )
-
 class FollowList(generics.ListCreateAPIView):
     queryset = follow.objects.all()
     serializer_class = UserFollowSerializer
@@ -161,3 +150,14 @@ class ApiRoot(generics.GenericAPIView):
             'follow':reverse(FollowList.name, request=request),
             'users':reverse(UserList.name, request=request),
             })
+    )
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerialzer
+    name = 'user-list'
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset User.objects.all()
+    serializer_class = UserSerialzer
+    name = 'user-detail'
