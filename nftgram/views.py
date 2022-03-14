@@ -6,8 +6,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from rest_framework import status
-from nftgram.models import User
-from nftgram.serializers import UserSerializer
+from nftgram.models import Post, User
+from nftgram.serializers import UserSerializer, PostSerializer
 from rest_framework import viewsets
 
 
@@ -57,6 +57,45 @@ def user_detail(request, user_id):
         user.delete()
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
 
+
+@csrf_exempt
+def post_list(request):
+    if request.method == 'GET':
+        posts = Post.objects.all()
+        post_serializer = UserSerializer(posts, many=True)
+        return JSONResponse(post_serializer.data)
+
+    elif request.method == 'POST':
+        post_data = JSONParser().parse(request)
+        post_serializer = PostSerializer(data=post_data)
+        if post_serializer.is_valid():
+            post_serializer.save()
+            return JSONResponse(post_serializer.data, status=status.HTTP_201_CREATED)
+        return JSONResponse(post_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@csrf_exempt
+def post_detail(request, post_id):
+    try:
+        post = Post.objects.get(pk=post_id)
+    except Post.DoesNotExist:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        post_serializer = PostSerializer(post)
+        return JSONResponse(post_serializer.data)
+
+    elif request.method == 'PUT':
+        post_data = JSONParser().parse(request)
+        post_serializer = UserSerializer(post, data=post_data)
+        if post_serializer.is_valid():
+            post_serializer.save()
+            return JSONResponse(post_serializer.data)
+        return JSONResponse(post_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        post.delete()
+        return HttpResponse(status=status.HTTP_204_NO_CONTENT)
 
 # ViewSets define the view behavior.
 class UserViewSet(viewsets.ModelViewSet):

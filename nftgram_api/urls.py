@@ -33,7 +33,6 @@ admin.autodiscover()
 urlpatterns = [
     path('api/', include('nftgram.urls')),
     path('admin/', admin.site.urls),
-    path('login/', views.LoginView.as_view(template_name='nftgram/login.html'), name='login'),
+    path('login/', views.LoginView.as_view(), name='login'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
-
 ]
