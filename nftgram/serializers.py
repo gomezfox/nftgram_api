@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from models import Posts, Relations
+from .models import Posts, Relations
 # from nftgram.models import Reply
 # from nftgram.models import UserProfile
 # from nftgram.models import Follows

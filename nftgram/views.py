@@ -4,10 +4,10 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from rest_framework import status, generics, viewsets
-from nftgram.models import Post, User
+from nftgram.models import  User, Posts
 from nftgram.serializers import UserSerializer, PostSerializer
 from rest_framework.permissions import AllowAny
-from permissions import IsAuthorOrReadOnly, IsFollowOrReadOnly
+from .permissions import IsAuthorOrReadOnly, IsFollowOrReadOnly
 class JSONResponse(HttpResponse):
     def __init__(self, data, **kwargs):
         content = JSONRenderer().render(data)
@@ -94,13 +94,13 @@ class JSONResponse(HttpResponse):
 #         post.delete()
 #         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
 
-# # ViewSets define the view behavior.
-# class UserViewSet(viewsets.ModelViewSet):
-#     queryset = User.objects.all()
-#     serializer_class = UserSerializer
+# ViewSets define the view behavior.
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 class PostList(generics.ListCreateAPIView):
-    queryset = Post.objects.all()
+    queryset = Posts.objects.all()
     serializer_class = PostSerializer
     name = 'posts'
 
@@ -113,7 +113,7 @@ class PostList(generics.ListCreateAPIView):
         serializer.save(author=self.request.user)
 
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Post.objects.all()
+    queryset = Posts.objects.all()
     serializer_class = PostSerializer
     name = 'post-detail'
 

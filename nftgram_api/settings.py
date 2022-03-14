@@ -137,5 +137,5 @@ REST_FRAMEWORK = {
     )
 }
 
-AUTH_USER_MODEL = 'nftgram.User'
+#AUTH_USER_MODEL = 'nftgram.User'
 
