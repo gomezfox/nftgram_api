@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
-from .models import User
+from nftgram.models import User, Post, Profile, Reply, Follows
 
 
 class UserCreationForm(forms.ModelForm):
@@ -68,8 +68,17 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 
-# Now register the new UserAdmin...
+# Register custom UserAdmin
 admin.site.register(User, UserAdmin)
-# ... and, since we're not using Django's built-in permissions,
+
+# Register other models to be displayed
+admin.site.register(Post)
+admin.site.register(Profile)
+admin.site.register(Follows)
+admin.site.register(Reply)
+
+
+
+
 # unregister the Group model from admin.
 admin.site.unregister(Group)
