@@ -8,6 +8,7 @@ from nftgram.models import  User, Posts
 from nftgram.serializers import UserSerializer, PostSerializer
 from rest_framework.permissions import AllowAny
 from .permissions import IsAuthorOrReadOnly, IsFollowOrReadOnly
+
 class JSONResponse(HttpResponse):
     def __init__(self, data, **kwargs):
         content = JSONRenderer().render(data)
@@ -125,7 +126,7 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
 class FollowList(generics.ListCreateAPIView):
     queryset = follow.objects.all()
     serializer_class = UserFollowSerializer
-    name = 'followe'
+    name = 'follows'
 
     permissions_classes = (
         IsAuthorOrReadOnly,
@@ -141,6 +142,30 @@ class FollowDetail(generics.RetrieveUpdateDestroyAPIView):
         permissions.IsAuthenticatedOrReadOnly,
         IsFollowOrReadOnly)
 
+def perform_create(self, serializer):
+        serializer.save(follower=self.request.user)
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerialzer
+    name = 'user-list'
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset User.objects.all()
+    serializer_class = UserSerialzer
+    name = 'user-detail'
+
+class UserCreate(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserCreateSerializer
+    permission_classes = (AllowAny, )
+    name = 'user-create'
+
+class UserCreateDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserCreateSerializer
+    name = 'user-create-details'
+
 class ApiRoot(generics.GenericAPIView):
     name = 'api-root'
     def get(self, request, *args, **kwargs):
@@ -149,4 +174,4 @@ class ApiRoot(generics.GenericAPIView):
             'posts': reverse(TweetList.name, request=request),
             'follow':reverse(FollowList.name, request=request),
             'users':reverse(UserList.name, request=request),
-            })
+            }))
