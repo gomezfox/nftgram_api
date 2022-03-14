@@ -20,6 +20,9 @@ from nftgram.models import User
 from rest_framework import routers, serializers, viewsets
 from nftgram.serializers import UserSerializer
 
+from django.urls import re_path
+from . import views
+
 admin.autodiscover()
 
 
@@ -35,9 +38,14 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', views.LoginView.as_view(), name='login'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
-    path('users/', view.UserViewSet.as_view(), name='all users'),
-    path('nfts/', view.PostList.as_view(), name='all nfts'),
-    path('nfts/{(?P<pk>[0-9]+)/$}', view.PostList.as_view(), name='all nfts'),
-    
+    #path('users/', view.UserViewSet.as_view(), name='all users'),
+    #path('nfts/', view.PostList.as_view(), name='all nfts'),
+    #path('nfts/{(?P<pk>[0-9]+)/$}', view.PostList.as_view(), name='all nfts'),
+    re_path(r'^users/$', views.UserList.as_view(), name=views.UserList.name),
+    re_path(r'^users/(?P<pk>[0-9]+)/$', views.UserDetail.as_view(), name=views.UserDetail.name),
+    re_path(r'^account/register/$', views.UserCreate.as_view(), name=views.UserCreate.name),
+    re_path(r'^account/register/(?P<pk>[0-9]+)/$', views.UserCreateDetail.as_view(), name=views.UserCreateDetail.name),
+    re_path(r'^follow/$', views.FollowList.as_view(), name=views.FollowList.name),
+    re_path(r'^follow/(?P<pk>[0-9]+)/$', views.FollowDetail.as_view(), name=views.FollowDetail.name),
 
 ]
