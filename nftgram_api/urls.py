@@ -15,8 +15,7 @@ Including another URLconf
 """
 # from django.contrib import admin
 # from django.contrib.auth import views
-from django.urls import re_path
-from nftgram import views
+from django.urls import re_path, include
 
 #admin.autodiscover()
 
@@ -36,13 +35,6 @@ urlpatterns = [
     #path('users/', view.UserViewSet.as_view(), name='all users'),
     #path('nfts/', view.PostList.as_view(), name='all nfts'),
     #path('nfts/{(?P<pk>[0-9]+)/$}', view.PostList.as_view(), name='all nfts'),
-    re_path(r'^users/$', views.UserList.as_view(), name=views.UserList.name),
-    re_path(r'^users/(?P<pk>[0-9]+)/$', views.UserDetail.as_view(), name=views.UserDetail.name),
-    re_path(r'^account/register/$', views.UserCreate.as_view(), name=views.UserCreate.name),
-    re_path(r'^account/register/(?P<pk>[0-9]+)/$', views.UserCreateDetail.as_view(), name=views.UserCreateDetail.name),
-    re_path(r'^follow/$', views.FollowList.as_view(), name=views.FollowList.name),
-    re_path(r'^follow/(?P<pk>[0-9]+)/$', views.FollowDetail.as_view(), name=views.FollowDetail.name),
-    re_path(r'^posts/$', views.PostList.as_view(),name=views.PostList.name),
-    re_path(r'^posts/(?P<pk>[0-9]+)/$', views.PostDetail.as_view(), name=views.PostDetail.name),
-    re_path(r'^$', views.ApiRoot.as_view(), name=views.ApiRoot.name),
+    re_path(r'^api-auth/', include('rest_framework.urls')),
+    re_path(r'^', include('nftgram.urls')),
 ]

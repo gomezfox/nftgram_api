@@ -164,3 +164,15 @@ class FollowPostSerializer(serializers.HyperlinkedModelSerializer):
                 'author',
                 'post_text',
                 'date')
+
+class AllPostsSerializer(serializers.HyperlinkedModelSerializer):
+
+    author = serializers.ReadOnlyField(source='author.username')
+
+    class Meta:
+        model = Posts
+        fields = (
+                'url',
+                'author',
+                'post_text',
+                'date')

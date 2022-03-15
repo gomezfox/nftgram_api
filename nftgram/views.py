@@ -1,3 +1,4 @@
+from math import perm
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -7,7 +8,8 @@ from rest_framework import status, generics, viewsets
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from nftgram.models import  User, Posts, Relations
-from nftgram.serializers import UserSerializer, PostSerializer, UserCreateSerializer, UserFollowSerializer, FollowPostSerializer
+from nftgram.serializers import AllPostsSerializer, UserSerializer, PostSerializer, UserCreateSerializer, UserFollowSerializer, FollowPostSerializer
+from rest_framework import permissions
 from rest_framework.permissions import AllowAny
 from .permissions import IsAuthorOrReadOnly, IsFollowOrReadOnly
 
@@ -108,7 +110,7 @@ class PostList(generics.ListCreateAPIView):
     name = 'posts'
 
     permissions_classes = (
-        IsAuthorOrReadOnly,
+        permissions.IsAuthenticatedOrReadOnly,
         IsFollowOrReadOnly
     )
 
@@ -121,7 +123,7 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     name = 'post-detail'
 
     permissions_classes = (
-         IsAuthorOrReadOnly,
+        permissions.IsAuthenticatedOrReadOnly,
         IsFollowOrReadOnly
     )
 
@@ -131,9 +133,14 @@ class FollowList(generics.ListCreateAPIView):
     name = 'follows'
 
     permissions_classes = (
-        IsAuthorOrReadOnly,
+        permissions.IsAuthenticatedOrReadOnly,
         IsFollowOrReadOnly
     )
+
+class AllPosts(generics.ListAPIView):
+    queryset = Posts.objects.all()
+    serializer_class = AllPostsSerializer
+    name = 'follow-post-list'
 
 class FollowDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Relations.objects.all()
@@ -141,7 +148,7 @@ class FollowDetail(generics.RetrieveUpdateDestroyAPIView):
     name = 'relation-detail'
 
     permission_classes = (
-        IsAuthorOrReadOnly,
+        permissions.IsAuthenticatedOrReadOnly,
         IsFollowOrReadOnly)
 
 def perform_create(self, serializer):
@@ -172,8 +179,9 @@ class ApiRoot(generics.GenericAPIView):
     name = 'api-root'
     def get(self, request, *args, **kwargs):
         return Response({
-            'signup':reverse(UserCreate.name, request=request),
-            'posts': reverse(PostList.name, request=request),
-            'follow':reverse(FollowList.name, request=request),
-            'users':reverse(UserList.name, request=request),
+            'Signup':reverse(UserCreate.name, request=request),
+            'Posts': reverse(PostList.name, request=request),
+            'All Posts': reverse(AllPosts.name, request=request),
+            'Followers':reverse(FollowList.name, request=request),
+            'Users':reverse(UserList.name, request=request),
             })

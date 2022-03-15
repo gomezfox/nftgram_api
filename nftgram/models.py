@@ -98,22 +98,27 @@ class Posts(models.Model):
         'auth.User',
         related_name='posts',
         on_delete=models.CASCADE,
+        default='',
     )
     post_text = models.CharField(max_length=250)
+  #  nft_url = models.CharField(max_length=1000)
     date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ('post_text',)
 
     def __str__(self):
-        return self.post_text
+        return (self.post_text)
 
 
 class Relations(models.Model):
     follower = models.ForeignKey(  
         'auth.User',            
         related_name='relations',
-        on_delete=models.CASCADE)
+        on_delete=models.CASCADE,
+        default='',
+    )
+
     followed = models.ForeignKey(  
         User,            
         related_name='followed',
