@@ -4,10 +4,13 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from rest_framework import status, generics, viewsets
-from nftgram.models import  User, Posts
-from nftgram.serializers import UserSerializer, PostSerializer
+from rest_framework.reverse import reverse
+from rest_framework.response import Response
+from nftgram.models import  User, Posts, Relations
+from nftgram.serializers import UserSerializer, PostSerializer, UserCreateSerializer, UserFollowSerializer, FollowPostSerializer
 from rest_framework.permissions import AllowAny
 from .permissions import IsAuthorOrReadOnly, IsFollowOrReadOnly
+
 class JSONResponse(HttpResponse):
     def __init__(self, data, **kwargs):
         content = JSONRenderer().render(data)
@@ -118,14 +121,14 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     name = 'post-detail'
 
     permissions_classes = (
-        IsAuthorOrReadOnly,
+         IsAuthorOrReadOnly,
         IsFollowOrReadOnly
     )
 
 class FollowList(generics.ListCreateAPIView):
-    queryset = follow.objects.all()
+    queryset = Relations.objects.all()
     serializer_class = UserFollowSerializer
-    name = 'followe'
+    name = 'follows'
 
     permissions_classes = (
         IsAuthorOrReadOnly,
@@ -134,30 +137,43 @@ class FollowList(generics.ListCreateAPIView):
 
 class FollowDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Relations.objects.all()
-    serializer_class = FollowSerializer
+    serializer_class = FollowPostSerializer
     name = 'relation-detail'
 
     permission_classes = (
-        permissions.IsAuthenticatedOrReadOnly,
+        IsAuthorOrReadOnly,
         IsFollowOrReadOnly)
+
+def perform_create(self, serializer):
+        serializer.save(follower=self.request.user)
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    name = 'user-list'
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    name = 'user-detail'
+
+class UserCreate(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserCreateSerializer
+    permission_classes = (AllowAny,)
+    name = 'user-create'
+
+class UserCreateDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserCreateSerializer
+    name = 'user-create-details'
 
 class ApiRoot(generics.GenericAPIView):
     name = 'api-root'
     def get(self, request, *args, **kwargs):
         return Response({
             'signup':reverse(UserCreate.name, request=request),
-            'posts': reverse(TweetList.name, request=request),
+            'posts': reverse(PostList.name, request=request),
             'follow':reverse(FollowList.name, request=request),
             'users':reverse(UserList.name, request=request),
             })
-    )
-
-class UserList(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerialzer
-    name = 'user-list'
-
-class UserDetail(generics.RetrieveAPIView):
-    queryset User.objects.all()
-    serializer_class = UserSerialzer
-    name = 'user-detail'
