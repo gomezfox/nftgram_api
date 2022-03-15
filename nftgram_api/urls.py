@@ -13,17 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.contrib.auth import views
-from django.urls import path, include
-from nftgram.models import User
-from rest_framework import routers, serializers, viewsets
-from nftgram.serializers import UserSerializer
-
+# from django.contrib import admin
+# from django.contrib.auth import views
 from django.urls import re_path
-from . import views
+from nftgram import views
 
-admin.autodiscover()
+#admin.autodiscover()
 
 
 # # Serializers define the API representation.
@@ -34,10 +29,10 @@ admin.autodiscover()
 
 
 urlpatterns = [
-    path('api/', include('nftgram.urls')),
-    path('admin/', admin.site.urls),
-    path('login/', views.LoginView.as_view(), name='login'),
-    path('logout/', views.LogoutView.as_view(), name='logout'),
+    # path('api/', include('nftgram.urls')),
+    # path('admin/', admin.site.urls),
+    # path('login/', views.LoginView.as_view(), name='login'),
+    # path('logout/', views.LogoutView.as_view(), name='logout'),
     #path('users/', view.UserViewSet.as_view(), name='all users'),
     #path('nfts/', view.PostList.as_view(), name='all nfts'),
     #path('nfts/{(?P<pk>[0-9]+)/$}', view.PostList.as_view(), name='all nfts'),
@@ -49,5 +44,5 @@ urlpatterns = [
     re_path(r'^follow/(?P<pk>[0-9]+)/$', views.FollowDetail.as_view(), name=views.FollowDetail.name),
     re_path(r'^posts/$', views.PostList.as_view(),name=views.PostList.name),
     re_path(r'^posts/(?P<pk>[0-9]+)/$', views.PostDetail.as_view(), name=views.PostDetail.name),
-
+    re_path(r'^$', views.ApiRoot.as_view(), name=views.ApiRoot.name),
 ]
