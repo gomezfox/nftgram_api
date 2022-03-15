@@ -151,7 +151,7 @@ class FollowDetail(generics.RetrieveUpdateDestroyAPIView):
         permissions.IsAuthenticatedOrReadOnly,
         IsFollowOrReadOnly)
 
-def perform_create(self, serializer):
+    def perform_create(self, serializer):
         serializer.save(follower=self.request.user)
 
 class UserList(generics.ListAPIView):
