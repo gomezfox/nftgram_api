@@ -96,7 +96,7 @@ from django.contrib.auth.models import User # AbstractBaseUser, BaseUserManager,
 class Posts(models.Model):
     author = models.ForeignKey(
         'auth.User',
-        related_name='tweets',
+        related_name='posts',
         on_delete=models.CASCADE,
     )
     post_text = models.CharField(max_length=250)
@@ -126,7 +126,7 @@ class Relations(models.Model):
     def save(self, **kwargs):
 
         if self.follower == self.followed:
-            raise ValueError("Cannot follow yourself.")
+            raise ValueError("Invalid Entry.")
         super(Relations, self).save(**kwargs)
 
     class Meta:
