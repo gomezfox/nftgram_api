@@ -33,8 +33,8 @@ urlpatterns = [
     # path('login/', views.LoginView.as_view(), name='login'),
     # path('logout/', views.LogoutView.as_view(), name='logout'),
     #path('users/', view.UserViewSet.as_view(), name='all users'),
-    #path('nfts/', view.PostList.as_view(), name='all nfts'),
-    #path('nfts/{(?P<pk>[0-9]+)/$}', view.PostList.as_view(), name='all nfts'),
+    #path('nfts/', view.NFTList.as_view(), name='all nfts'),
+    #path('nfts/{(?P<pk>[0-9]+)/$}', view.NFTList.as_view(), name='all nfts'),
     re_path(r'^api-auth/', include('rest_framework.urls')),
     re_path(r'^', include('nftgram.urls')),
 ]

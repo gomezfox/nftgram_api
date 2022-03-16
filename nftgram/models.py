@@ -48,24 +48,24 @@ from django.contrib.auth.models import User # AbstractBaseUser, BaseUserManager,
 #         db_table = "users"
 
 
-# class Post(models.Model):
-#     post_id = models.AutoField(primary_key=True)
+# class NFT(models.Model):
+#     NFT_id = models.AutoField(primary_key=True)
 #     user_id = models.CharField(max_length=200)
 #     title = models.CharField(max_length=50, blank=False, default='')
 #     description = models.CharField(max_length=200)
-#     posted_at = models.DateTimeField(auto_now_add=True)
+#     NFTed_at = models.DateTimeField(auto_now_add=True)
 #     nft_id = models.IntegerField()
 #     nft_url = models.CharField(max_length=255)
 
 #     class Meta:
-#         db_table = "post"
+#         db_table = "NFT"
 
 
 # class Reply(models.Model):
 
 #     reply_id = models.AutoField(primary_key=True)
 #     user_id = models.CharField(max_length=200)
-#     post_id = models.IntegerField()
+#     NFT_id = models.IntegerField()
 #     replied_at = models.DateTimeField(auto_now_add=True)
 #     reply_text = models.CharField(max_length=200)
 
@@ -93,22 +93,22 @@ from django.contrib.auth.models import User # AbstractBaseUser, BaseUserManager,
 #     class Meta:
 #         db_table = "follows"
 
-class Posts(models.Model):
+class NFTs(models.Model):
     author = models.ForeignKey(
         'auth.User',
-        related_name='posts',
+        related_name='NFTs',
         on_delete=models.CASCADE,
         default='',
     )
-    post_text = models.CharField(max_length=250)
+    NFT_text = models.URLField(max_length=250)
   #  nft_url = models.CharField(max_length=1000)
     date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ('post_text',)
+        ordering = ('NFT_text',)
 
     def __str__(self):
-        return (self.post_text)
+        return (self.NFT_text)
 
 
 class Relations(models.Model):

@@ -7,8 +7,8 @@ from rest_framework.parsers import JSONParser
 from rest_framework import status, generics, viewsets
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
-from nftgram.models import  User, Posts, Relations
-from nftgram.serializers import AllPostsSerializer, UserSerializer, PostSerializer, UserCreateSerializer, UserFollowSerializer, FollowPostSerializer
+from nftgram.models import  User, NFTs, Relations
+from nftgram.serializers import AllNFTsSerializer, UserSerializer, NFTSerializer, UserCreateSerializer, UserFollowSerializer, FollowNFTSerializer
 from rest_framework import permissions
 from rest_framework.permissions import AllowAny
 from .permissions import IsAuthorOrReadOnly, IsFollowOrReadOnly
@@ -27,7 +27,7 @@ class JSONResponse(HttpResponse):
 #         user_serializer = UserSerializer(users, many=True)
 #         return JSONResponse(user_serializer.data)
 
-#     elif request.method == 'POST':
+#     elif request.method == 'NFT':
 #         user_data = JSONParser().parse(request)
 #         user_serializer = UserSerializer(data=user_data)
 #         if user_serializer.is_valid():
@@ -61,42 +61,42 @@ class JSONResponse(HttpResponse):
 
 
 # @csrf_exempt
-# def post_list(request):
+# def NFT_list(request):
 #     if request.method == 'GET':
-#         posts = Post.objects.all()
-#         post_serializer = UserSerializer(posts, many=True)
-#         return JSONResponse(post_serializer.data)
+#         NFTs = NFT.objects.all()
+#         NFT_serializer = UserSerializer(NFTs, many=True)
+#         return JSONResponse(NFT_serializer.data)
 
-#     elif request.method == 'POST':
-#         post_data = JSONParser().parse(request)
-#         post_serializer = PostSerializer(data=post_data)
-#         if post_serializer.is_valid():
-#             post_serializer.save()
-#             return JSONResponse(post_serializer.data, status=status.HTTP_201_CREATED)
-#         return JSONResponse(post_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#     elif request.method == 'NFT':
+#         NFT_data = JSONParser().parse(request)
+#         NFT_serializer = NFTSerializer(data=NFT_data)
+#         if NFT_serializer.is_valid():
+#             NFT_serializer.save()
+#             return JSONResponse(NFT_serializer.data, status=status.HTTP_201_CREATED)
+#         return JSONResponse(NFT_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # @csrf_exempt
-# def post_detail(request, post_id):
+# def NFT_detail(request, NFT_id):
 #     try:
-#         post = Post.objects.get(pk=post_id)
-#     except Post.DoesNotExist:
+#         NFT = NFT.objects.get(pk=NFT_id)
+#     except NFT.DoesNotExist:
 #         return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
 #     if request.method == 'GET':
-#         post_serializer = PostSerializer(post)
-#         return JSONResponse(post_serializer.data)
+#         NFT_serializer = NFTSerializer(NFT)
+#         return JSONResponse(NFT_serializer.data)
 
 #     elif request.method == 'PUT':
-#         post_data = JSONParser().parse(request)
-#         post_serializer = UserSerializer(post, data=post_data)
-#         if post_serializer.is_valid():
-#             post_serializer.save()
-#             return JSONResponse(post_serializer.data)
-#         return JSONResponse(post_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#         NFT_data = JSONParser().parse(request)
+#         NFT_serializer = UserSerializer(NFT, data=NFT_data)
+#         if NFT_serializer.is_valid():
+#             NFT_serializer.save()
+#             return JSONResponse(NFT_serializer.data)
+#         return JSONResponse(NFT_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 #     elif request.method == 'DELETE':
-#         post.delete()
+#         NFT.delete()
 #         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
 
 # ViewSets define the view behavior.
@@ -104,10 +104,10 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-class PostList(generics.ListCreateAPIView):
-    queryset = Posts.objects.all()
-    serializer_class = PostSerializer
-    name = 'posts'
+class NFTList(generics.ListCreateAPIView):
+    queryset = NFTs.objects.all()
+    serializer_class = NFTSerializer
+    name = 'NFTs'
 
     permissions_classes = (
         permissions.IsAuthenticatedOrReadOnly,
@@ -117,10 +117,10 @@ class PostList(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
-class PostDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Posts.objects.all()
-    serializer_class = PostSerializer
-    name = 'post-detail'
+class NFTDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = NFTs.objects.all()
+    serializer_class = NFTSerializer
+    name = 'NFTs-detail'
 
     permissions_classes = (
         permissions.IsAuthenticatedOrReadOnly,
@@ -137,14 +137,14 @@ class FollowList(generics.ListCreateAPIView):
         IsFollowOrReadOnly
     )
 
-class AllPosts(generics.ListAPIView):
-    queryset = Posts.objects.all()
-    serializer_class = AllPostsSerializer
-    name = 'follow-post-list'
+class AllNFTs(generics.ListAPIView):
+    queryset = NFTs.objects.all()
+    serializer_class = AllNFTsSerializer
+    name = 'follow-NFT-list'
 
 class FollowDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Relations.objects.all()
-    serializer_class = FollowPostSerializer
+    serializer_class = FollowNFTSerializer
     name = 'relation-detail'
 
     permission_classes = (
@@ -180,8 +180,8 @@ class ApiRoot(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         return Response({
             'Signup':reverse(UserCreate.name, request=request),
-            'Posts': reverse(PostList.name, request=request),
-            'All Posts': reverse(AllPosts.name, request=request),
+            'NFTs': reverse(NFTList.name, request=request),
+            'All NFTs': reverse(AllNFTs.name, request=request),
             'Followers':reverse(FollowList.name, request=request),
             'Users':reverse(UserList.name, request=request),
             })

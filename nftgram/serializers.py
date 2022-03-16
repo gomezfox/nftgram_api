@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Posts, Relations
+from .models import NFTs, Relations
 # from nftgram.models import Reply
 # from nftgram.models import UserProfile
 # from nftgram.models import Follows
@@ -31,16 +31,16 @@ from .models import Posts, Relations
 #         fields = ['id', 'username', 'password', 'date_joined', 'last_login']
 
 
-# class PostSerializer(serializers.HyperlinkedModelSerializer):
+# class NFTSerializer(serializers.HyperlinkedModelSerializer):
 
 #     class Meta:
-#         model = Post
+#         model = NFT
 #         fields = (
-#             'post_id',
+#             'NFT_id',
 #             'user_id',
 #             'title',
 #             'description',
-#             'posted_at',
+#             'NFTed_at',
 #             'nft_id',
 #             'nft_url',
 #             )
@@ -48,14 +48,14 @@ from .models import Posts, Relations
 
 # class ReplySerializer(serializers.HyperlinkedModelSerializer):
 #     user_id = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='name')
-#     post_id = serializers.SlugRelatedField(queryset=Post.objects.all(), slug_field='name')
+#     NFT_id = serializers.SlugRelatedField(queryset=NFT.objects.all(), slug_field='name')
 #     class Meta:
 
 #         model = Reply
 #         fields = (
 #             'reply_id',
 #             'user_id',
-#             'post_id',
+#             'NFT_id',
 #             'replied_at',
 #             'reply_text',
 #             )
@@ -87,24 +87,24 @@ from .models import Posts, Relations
 #             'follows_id',
 #             )
 
-class PostSerializer(serializers.HyperlinkedModelSerializer):
+class NFTSerializer(serializers.HyperlinkedModelSerializer):
 
     author = serializers.ReadOnlyField(source='author.username')
 
     class Meta:
-        model = Posts
+        model = NFTs
         fields = (
                 'url',
                 'author',
-                'post_text',
+                'NFT_text',
                 'date')
 
-class UserPostSerializer(serializers.HyperlinkedModelSerializer):
+class UserNFTSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Posts
+        model = NFTs
         fields = (
             'url',
-            'post_text')
+            'NFT_text')
 
 class UserCreateSerializer(serializers.ModelSerializer):
 
@@ -141,7 +141,7 @@ class UserFollowSerializer(serializers.HyperlinkedModelSerializer):
                 'followed')
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    posts = UserPostSerializer(many=True, read_only=True)
+    NFTs = UserNFTSerializer(many=True, read_only=True)
     follow = UserFollowSerializer (many=True, read_only=True)
 
     class Meta:
@@ -150,29 +150,29 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             'url', 
             'pk',
             'username',
-            'posts',
+            'NFTs',
             'follow')
 
-class FollowPostSerializer(serializers.HyperlinkedModelSerializer):
+class FollowNFTSerializer(serializers.HyperlinkedModelSerializer):
 
     author = serializers.ReadOnlyField(source='author.username')
 
     class Meta:
-        model = Posts
+        model = NFTs
         fields = (
                 'url',
                 'author',
-                'post_text',
+                'NFT_text',
                 'date')
 
-class AllPostsSerializer(serializers.HyperlinkedModelSerializer):
+class AllNFTsSerializer(serializers.HyperlinkedModelSerializer):
 
     author = serializers.ReadOnlyField(source='author.username')
 
     class Meta:
-        model = Posts
+        model = NFTs
         fields = (
                 'url',
                 'author',
-                'post_text',
+                'NFT_text',
                 'date')

@@ -18,8 +18,8 @@ urlpatterns = [
     re_path(r'^account/register/(?P<pk>[0-9]+)/$', views.UserCreateDetail.as_view(), name=views.UserCreateDetail.name),
     re_path(r'^follow/$', views.FollowList.as_view(), name=views.FollowList.name),
     re_path(r'^follow/(?P<pk>[0-9]+)/$', views.FollowDetail.as_view(), name=views.FollowDetail.name),
-    re_path(r'^posts/$', views.PostList.as_view(),name=views.PostList.name),
-    re_path(r'^posts/(?P<pk>[0-9]+)/$', views.PostDetail.as_view(), name=views.PostDetail.name),
-    re_path(r'^allposts/$', views.AllPosts.as_view(), name=views.AllPosts.name),
+    re_path(r'^NFTs/$', views.NFTList.as_view(),name=views.NFTList.name),
+    re_path(r'^NFTs/(?P<pk>[0-9]+)/$', views.NFTDetail.as_view(), name=views.NFTDetail.name),
+    re_path(r'^allNFTs/$', views.AllNFTs.as_view(), name=views.AllNFTs.name),
     re_path(r'^$', views.ApiRoot.as_view(), name=views.ApiRoot.name),
 ]

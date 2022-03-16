@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
-    #'nftgram.apps.NftgramConfig',
+    # 'nftgram.apps.NftgramConfig',
     'nftgram'
 
 ]
@@ -144,5 +144,5 @@ REST_FRAMEWORK = {
     )
 }
 
-#AUTH_USER_MODEL = 'nftgram.User'
+# AUTH_USER_MODEL = 'nftgram.User'
 
