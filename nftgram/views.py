@@ -1,11 +1,17 @@
 from django.shortcuts import render
+from django.contrib.auth.models import User
 from django.http import HttpResponse
+from rest_framework import generics
+from rest_framework import permissions
+from rest_framework.reverse import reverse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
+from rest_framework import Response
 from rest_framework.parsers import JSONParser
 from rest_framework import status, generics, viewsets
 from nftgram.models import  User, Posts
-from nftgram.serializers import UserSerializer, PostSerializer
+from nftgram.serializers import UserSerializer, PostSerializer, UserCreateSerializer, UserPostSerializer
+FollowSerializer, UserFollowSerializer, FollowPostSerializer
 from rest_framework.permissions import AllowAny
 from .permissions import IsAuthorOrReadOnly, IsFollowOrReadOnly
 
@@ -126,7 +132,7 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
 class FollowList(generics.ListCreateAPIView):
     queryset = follow.objects.all()
     serializer_class = UserFollowSerializer
-    name = 'follows'
+    name = 'relation-list'
 
     permissions_classes = (
         IsAuthorOrReadOnly,
