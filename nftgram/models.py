@@ -100,15 +100,14 @@ class NFTs(models.Model):
         on_delete=models.CASCADE,
         default='',
     )
-    NFT_text = models.URLField(max_length=250)
-  #  nft_url = models.CharField(max_length=1000)
+    NFT_URL = models.URLField(max_length=250)
     date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ('NFT_text',)
+        ordering = ('NFT_URL',)
 
     def __str__(self):
-        return (self.NFT_text)
+        return (self.NFT_URL)
 
 
 class Relations(models.Model):
