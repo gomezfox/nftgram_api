@@ -96,7 +96,7 @@ class NFTSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
                 'url',
                 'author',
-                'NFT_text',
+                'NFT_URL',
                 'date')
 
 class UserNFTSerializer(serializers.HyperlinkedModelSerializer):
@@ -104,7 +104,7 @@ class UserNFTSerializer(serializers.HyperlinkedModelSerializer):
         model = NFTs
         fields = (
             'url',
-            'NFT_text')
+            'NFT_URL')
 
 class UserCreateSerializer(serializers.ModelSerializer):
 
@@ -162,7 +162,7 @@ class FollowNFTSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
                 'url',
                 'author',
-                'NFT_text',
+                'NFT_URL',
                 'date')
 
 class AllNFTsSerializer(serializers.HyperlinkedModelSerializer):
@@ -174,5 +174,5 @@ class AllNFTsSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
                 'url',
                 'author',
-                'NFT_text',
+                'NFT_URL',
                 'date')

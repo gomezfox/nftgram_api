@@ -120,7 +120,7 @@ class NFTList(generics.ListCreateAPIView):
 class NFTDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = NFTs.objects.all()
     serializer_class = NFTSerializer
-    name = 'NFTs-detail'
+    name = 'nfts-detail'
 
     permissions_classes = (
         permissions.IsAuthenticatedOrReadOnly,
@@ -164,7 +164,7 @@ class UserDetail(generics.RetrieveAPIView):
     serializer_class = UserSerializer
     name = 'user-detail'
 
-class UserCreate(generics.ListCreateAPIView):
+class UserCreate(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserCreateSerializer
     permission_classes = (AllowAny,)
