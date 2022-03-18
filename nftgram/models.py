@@ -1,4 +1,4 @@
-from pyexpat import model
+# from pyexpat import model
 from django.db import models
 from django.contrib.auth.models import User # AbstractBaseUser, BaseUserManager, PermissionsMixin
 
@@ -114,10 +114,9 @@ class Relations(models.Model):
     follower = models.ForeignKey(  
         'auth.User',            
         related_name='relations',
-        on_delete=models.CASCADE,
-        default='',
-    )
-
+        on_delete=models.CASCADE)
+        # default='',
+    
     followed = models.ForeignKey(  
         User,            
         related_name='followed',
