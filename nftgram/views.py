@@ -1,17 +1,13 @@
-from math import perm
-from django.shortcuts import render
 from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParser
-from rest_framework import status, generics, viewsets
+from rest_framework import generics, viewsets
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from nftgram.models import  User, NFTs, Relations
 from nftgram.serializers import AllNFTsSerializer, UserSerializer, NFTSerializer, UserCreateSerializer, UserFollowSerializer, FollowNFTSerializer
 from rest_framework import permissions
 from rest_framework.permissions import AllowAny
-from .permissions import IsAuthorOrReadOnly, IsFollowOrReadOnly
+from .permissions import IsFollowOrReadOnly
 
 class JSONResponse(HttpResponse):
     def __init__(self, data, **kwargs):

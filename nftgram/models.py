@@ -97,8 +97,8 @@ class NFTs(models.Model):
     author = models.ForeignKey(
         'auth.User',
         related_name='NFTs',
-        on_delete=models.CASCADE,
-        default='',
+        on_delete=models.CASCADE
+        # default='',
     )
     NFT_URL = models.URLField(max_length=250)
     date = models.DateTimeField(auto_now_add=True)
@@ -114,8 +114,8 @@ class Relations(models.Model):
     follower = models.ForeignKey(  
         'auth.User',            
         related_name='relations',
-        on_delete=models.CASCADE)
-        # default='',
+        on_delete=models.CASCADE,
+        default='')
     
     followed = models.ForeignKey(  
         User,            

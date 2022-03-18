@@ -132,7 +132,17 @@ class FollowSerializer(serializers.HyperlinkedModelSerializer):
                 'url',
                 'follower',
                 'followed')
+class FollowNFTSerializer(serializers.HyperlinkedModelSerializer):
 
+    author = serializers.ReadOnlyField(source='author.username')
+
+    class Meta:
+        model = NFTs
+        fields = (
+                'url',
+                'author',
+                'NFT_URL',
+                'date')
 class UserFollowSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Relations
@@ -153,17 +163,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             'NFTs',
             'follow')
 
-class FollowNFTSerializer(serializers.HyperlinkedModelSerializer):
 
-    author = serializers.ReadOnlyField(source='author.username')
-
-    class Meta:
-        model = NFTs
-        fields = (
-                'url',
-                'author',
-                'NFT_URL',
-                'date')
 
 class AllNFTsSerializer(serializers.HyperlinkedModelSerializer):
 
